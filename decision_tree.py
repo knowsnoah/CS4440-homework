@@ -29,13 +29,13 @@ for ds in dataSets:
         refund_value = 1 if row[0] == "Yes" else 0
 
         #marital status 
-        single = 1 if row[1] == "Sinlge" else 0
-        married = 1 if row[1] == "married" else 0
-        divorced = 1 if row[1] == "divroced" else 0
+        single = 1 if row[1] == "Single" else 0
+        married = 1 if row[1] == "Married" else 0
+        divorced = 1 if row[1] == "Divorced" else 0
 
         #Taxable income converted into a float
         income_str = str(row[2])
-        income_float = float(income_str.replace('$', '').replace('k',' '))
+        income_float = float(income_str.replace('k',''))
 
         #appending these values into X
         X.append([refund_value, single, married, divorced, income_float])
@@ -49,13 +49,13 @@ for ds in dataSets:
         Y.append(1 if class_label == "Yes" else 0)
 
     #loop your training and test tasks 10 times here
-    for i in range (10):
+    for i in range (3):
         #fitting the decision tree to the data by using Gini index and no max_depth
         clf = tree.DecisionTreeClassifier(criterion = 'gini', max_depth=None)
         clf = clf.fit(X, Y)
         #plotting the decision tree
-        tree.plot_tree(clf, feature_names=['Refund', 'Single', 'Divorced',
-        'Married', 'Taxable Income'], class_names=['Yes','No'], filled=True, rounded=True)
+        tree.plot_tree(clf, feature_names=['Refund', 'Single', 'Married',
+        'Divorced', 'Taxable Income'], class_names=['Yes','No'], filled=True, rounded=True)
         plt.show()
 
         #read the test data and add this data to data_test NumPy
@@ -74,16 +74,16 @@ for ds in dataSets:
             # For instance: class_predicted = clf.predict([[1, 0, 1, 0, 115]])[0], where [0] is used to get an integer as 
             # the predicted class label so that you can compare it with the true label
             #--> add your Python code here
-            refund_value_test = 1 if row[0] == "Yes" else 0
+            refund_value_test = 1 if data[0] == "Yes" else 0
 
-            single_test = 1 if row[1] == "Single" else 0
-            married_test = 1 if row[1] == "Married" else 0
-            divorced_test = 1 if row[1] == "Divorced" else 0
+            single_test = 1 if data[1] == "Single" else 0
+            married_test = 1 if data[1] == "Married" else 0
+            divorced_test = 1 if data[1] == "Divorced" else 0
 
-            income_str_t = str(row[2])
-            income_float_test = float(income_str_t.replace('$','').replace('k',''))
+            income_str_t = str(data[2])
+            income_float_test = float(income_str_t.replace('k',''))
 
-            class_predicted = clf.predict([[refund_value_test, single_test, married_test, divorced, income_float_test]])[0]
+            class_predicted = clf.predict([[refund_value_test, single_test, married_test, divorced_test, income_float_test]])[0]
 
             #compare the prediction with the true label (located at data[3]) of the test instance to start 
             # calculating the model accuracy.
@@ -99,3 +99,5 @@ for ds in dataSets:
         accuracy = correct / total if total else 0.0 #if total doesnt exist or is 0
         accuracies.append(accuracy)
         print(f"run {i+1} accuracy on {ds}: {accuracy:.3f}")
+        
+    print(f"final accuracy when training on {ds}: {sum(accuracies)/len(accuracies):.3f}")
