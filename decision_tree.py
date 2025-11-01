@@ -1,9 +1,10 @@
 # -------------------------------------------------------------------------
 # AUTHOR: Noah Ojeda
 # FILENAME: decision_tree.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: This program trains decision tree classifiers using three cheat-training datasets,
+# tests each model on cheat_test.csv, and reports average accuracy.
 # FOR: CS 4440 (Data Mining) - Assignment #3
-# TIME SPENT: 
+# TIME SPENT: ~2hr 
 # -----------------------------------------------------------*/
 #IMPORTANT NOTE: YOU ARE ALLOWED TO USE ANY PYTHON LIBRARY TO COMPLETE THIS PROGRAM
 #importing some Python libraries
@@ -99,5 +100,6 @@ for ds in dataSets:
         accuracy = correct / total if total else 0.0 #if total doesnt exist or is 0
         accuracies.append(accuracy)
         print(f"run {i+1} accuracy on {ds}: {accuracy:.3f}")
-        
+    
+    #final accuracy after the 10 runs for each training set
     print(f"final accuracy when training on {ds}: {sum(accuracies)/len(accuracies):.3f}")
