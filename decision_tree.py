@@ -50,7 +50,7 @@ for ds in dataSets:
         Y.append(1 if class_label == "Yes" else 0)
 
     #loop your training and test tasks 10 times here
-    for i in range (3):
+    for i in range (10):
         #fitting the decision tree to the data by using Gini index and no max_depth
         clf = tree.DecisionTreeClassifier(criterion = 'gini', max_depth=None)
         clf = clf.fit(X, Y)
