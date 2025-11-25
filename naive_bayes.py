@@ -1,9 +1,12 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Noah Ojeda
 # FILENAME: naive_bayes.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: This program trains a Naïve Bayes classifier on the weather_training.csv dataset, 
+# using discretized temperature values as class labels. It performs a grid search over different smoothing parameters, 
+# evaluates predictions on weather_test.csv using a ±15% tolerance rule,and reports the highest accuracy found along 
+# with the corresponding smoothing value.
 # FOR: CS 4440- Assignment #4
-# TIME SPENT: 
+# TIME SPENT: ~1hr 
 #-----------------------------------------------------------*/
 
 #importing some Python libraries
@@ -17,7 +20,7 @@ classes = [i for i in range(-22, 40, 6)]
 
 s_values = [0.1, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001, 0.00000001, 0.000000001, 0.0000000001]
 
-#funciton to discretize the real values to the closest class
+#funciton to discretize the real values to the closest class vlaue for the Y labels (continous to discrete)
 def discretize(value):
     closest_class = min(classes, key=lambda x: abs(x - value))
     return closest_class
@@ -75,13 +78,15 @@ for s in s_values:
 
         else:
             percent_diff = 100* abs(predicted_value - real_value)/ (real_value)
-            if percent_diff <= 15.0:
+            if percent_diff <= 15.0: #if the prediction is within the tolerance given 
                 correct += 1
+
     # check if the calculated accuracy is higher than the previously one calculated. If so, update the highest accuracy and print it together
     # with the KNN hyperparameters. Example: "Highest Naive Bayes accuracy so far: 0.32, Parameters: s=0.1
     # --> add your Python code here
-    accuracy = correct / total if total > 0.0 else 0.0
-
+    accuracy = correct / total if total > 0.0 else 0.0 #to avoid division by zero again
+    
+    #return the best accuracy and the corresponding s value
     if accuracy > highest_accuracy:
         highest_accuracy = accuracy
         best_s = s
